@@ -1,10 +1,9 @@
 # expense_tracker_s5
 
-A new Flutter project.
+Flutter App to track Expenses. Teaches concepts such as adding Dismissive Widgets, Graphs, Modals, Error Dialogs etc.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
 

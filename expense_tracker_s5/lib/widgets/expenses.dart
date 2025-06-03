@@ -41,6 +41,12 @@ class _ExpensesState extends State<Expenses> {
     });
   }
 
+  void _clearDismissedExpense(ExpenseModel dismissedExpense) {
+    setState(() {
+      _dummyData.remove(dismissedExpense);
+    });
+  }
+
   void _showModalBottomSheetOverlay() {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -64,7 +70,12 @@ class _ExpensesState extends State<Expenses> {
       body: Column(
         children: [
           Text('Chart section'),
-          Expanded(child: ExpensesList(listData: _dummyData)),
+          Expanded(
+            child: ExpensesList(
+              listData: _dummyData,
+              dismissiveFn: _clearDismissedExpense,
+            ),
+          ),
         ],
       ),
     );
