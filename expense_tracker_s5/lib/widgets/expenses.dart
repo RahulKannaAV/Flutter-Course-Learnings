@@ -76,8 +76,11 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(context) {
-    Widget expenseContent = const Center(
-      child: Text('No Expense found. Please add Expense via + icon.'),
+    Widget expenseContent = Center(
+      child: Text(
+        'No Expense found. Please add Expense via + icon.',
+        style: Theme.of(context).textTheme.displayLarge,
+      ),
     );
 
     if (_dummyData.isNotEmpty) {
@@ -98,7 +101,13 @@ class _ExpensesState extends State<Expenses> {
         ],
       ),
       body: Column(
-        children: [Text('Chart section'), Expanded(child: expenseContent)],
+        children: [
+          Text(
+            'Chart section',
+            style: Theme.of(context).textTheme.displayLarge,
+          ),
+          Expanded(child: expenseContent),
+        ],
       ),
     );
   }

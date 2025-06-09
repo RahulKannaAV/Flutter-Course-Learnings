@@ -162,7 +162,11 @@ class _NewExpenseState extends State<NewExpense> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Cancel'),
+                style: Theme.of(context).elevatedButtonTheme.style,
+                child: Text(
+                  'Cancel',
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
               ),
               TextButton(onPressed: _saveExpense, child: Text('Save Expense')),
             ],
