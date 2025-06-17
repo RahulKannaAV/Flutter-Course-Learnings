@@ -32,3 +32,26 @@ class ExpenseModel {
     return formatter.format(expenseDate);
   }
 }
+
+class ExpenseStats {
+  const ExpenseStats({required this.expenseList, required this.category});
+
+  ExpenseStats.forCategory(List<ExpenseModel> allExpense, this.category)
+    : expenseList =
+          allExpense
+              .where((expense) => expense.expenseCategory == category)
+              .toList(); // Constructor function to segregate expenses based on the category initialized in the class via constructor
+
+  final List<ExpenseModel> expenseList;
+  final Category category;
+
+  double get totalExpensesOfOneCategory {
+    double totalExpense = 0;
+
+    for (final expense in expenseList) {
+      totalExpense += expense.amount;
+    }
+
+    return totalExpense;
+  }
+}
