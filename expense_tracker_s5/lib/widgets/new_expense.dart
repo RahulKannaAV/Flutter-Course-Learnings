@@ -91,87 +91,97 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(18, 50, 18, 18),
-      child: Column(
-        children: [
-          TextField(
-            controller: _titleController,
-            maxLength: 50,
-            keyboardType: TextInputType.text,
-            decoration: InputDecoration(label: Text('Expense Title')),
-          ),
-          Row(
+    final keyboardSize = MediaQuery.of(context).viewInsets.bottom;
+
+    return SizedBox(
+      height: double.infinity,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(18, 50, 18, 18 + keyboardSize),
+          child: Column(
             children: [
-              Expanded(
-                child: TextField(
-                  controller: _amountController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    label: Text('Expense Amount'),
-                    prefixText: '\u20B9 ',
+              TextField(
+                controller: _titleController,
+                maxLength: 50,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(label: Text('Expense Title')),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _amountController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        label: Text('Expense Amount'),
+                        prefixText: '\u20B9 ',
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          _pickedDate == null
+                              ? 'No date chosen'
+                              : formatter.format(_pickedDate!),
+                        ),
+                        IconButton(
+                          onPressed: _showDatePicker,
+                          icon: Icon(Icons.calendar_month),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      _pickedDate == null
-                          ? 'No date chosen'
-                          : formatter.format(_pickedDate!),
+              const SizedBox(height: 18),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  DropdownButton(
+                    value: _chosenCategory,
+                    items:
+                        Category.values
+                            .map(
+                              (category) => DropdownMenuItem(
+                                value: category,
+                                child: Text(category.name.toUpperCase()),
+                              ),
+                            )
+                            .toList(),
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      setState(() {
+                        _chosenCategory = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(width: 30),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    style: Theme.of(context).elevatedButtonTheme.style,
+                    child: Text(
+                      'Cancel',
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
-                    IconButton(
-                      onPressed: _showDatePicker,
-                      icon: Icon(Icons.calendar_month),
-                    ),
-                  ],
-                ),
+                  ),
+                  TextButton(
+                    onPressed: _saveExpense,
+                    child: Text('Save Expense'),
+                  ),
+                ],
               ),
             ],
           ),
-          const SizedBox(height: 18),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              DropdownButton(
-                value: _chosenCategory,
-                items:
-                    Category.values
-                        .map(
-                          (category) => DropdownMenuItem(
-                            value: category,
-                            child: Text(category.name.toUpperCase()),
-                          ),
-                        )
-                        .toList(),
-                onChanged: (value) {
-                  if (value == null) {
-                    return;
-                  }
-                  setState(() {
-                    _chosenCategory = value;
-                  });
-                },
-              ),
-              const SizedBox(width: 30),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                style: Theme.of(context).elevatedButtonTheme.style,
-                child: Text(
-                  'Cancel',
-                  style: Theme.of(context).textTheme.labelMedium,
-                ),
-              ),
-              TextButton(onPressed: _saveExpense, child: Text('Save Expense')),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }
